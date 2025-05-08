@@ -1,0 +1,12 @@
+{
+  "name": "nebulablock-cypress-e2e",
+  "version": "1.0.0",
+  "description": "E2E tests for NebulaBlock using Cypress and POM",
+  "scripts": {
+    "test": "cypress run",
+    "cy:open": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "^12.17.4"
+  }
+} 
