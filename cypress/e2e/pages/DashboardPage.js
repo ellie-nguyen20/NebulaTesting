@@ -8,9 +8,15 @@ class DashboardPage {
   }
 
   checkMainSections() {
-    cy.contains('Home').should('be.visible');
-    cy.contains('Inference Usage').should('be.visible');
-    cy.contains('Instances Usage').should('be.visible');
+    cy.get('body').then($body => {
+      if ($body.find('button.el-dialog__headerbtn').length) {
+        cy.get('button.el-dialog__headerbtn').click({force:true});
+        cy.wait(500);
+      }
+    });
+    cy.contains('Home').scrollIntoView().should('be.visible');
+    cy.contains('Inference Usage').scrollIntoView().should('be.visible');
+    cy.contains('Instances Usage').scrollIntoView().should('be.visible');
   }
 
   checkTablesHaveData() {

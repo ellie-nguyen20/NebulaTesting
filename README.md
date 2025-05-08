@@ -1,22 +1,22 @@
 # NebulaBlock Cypress E2E Tests
 
-## Cấu trúc thư mục
+## Folder structure
 
-- `cypress/e2e/pages/`: Chứa các Page Object Model (POM)
-- `cypress/e2e/login.cy.js`: Test login chính
-- `cypress/fixtures/users.json`: Dữ liệu user mẫu
-- `cypress.env.json`: Lưu credentials thật (KHÔNG commit lên git)
-- `.gitignore`: Loại trừ node_modules và cypress.env.json
+- `cypress/e2e/pages/`: Contains Page Object Models (POM)
+- `cypress/e2e/login.cy.js`: Main login test
+- `cypress/fixtures/users.json`: Sample user data
+- `cypress.env.json`: Stores real credentials
+- `.gitignore`: Excludes node_modules and cypress.env.json
 
-## Cài đặt và chạy test
+## Install and run tests
 
 ```bash
 npm install
-npx cypress open # hoặc npx cypress run
+npx cypress open # or npx cypress run
 ```
 
-## Bảo mật
-- Không commit file `cypress.env.json` chứa thông tin nhạy cảm lên git.
+## Security
+- Do not commit the `cypress.env.json` file containing sensitive information to git.
 
 ## CI/CD
-- Đã cấu hình pipeline Github Actions để tự động chạy test (xem `.github/workflows/cypress.yml`). 
+- Github Actions pipeline is configured to automatically run tests (see `.github/workflows/cypress.yml`). 

@@ -1,39 +1,63 @@
 import DashboardPage from './pages/DashboardPage';
 import LoginPage from './pages/LoginPage';
+import { getLLMStatistics } from '../support/api_base';
 
 describe('Dashboard UI', () => {
   beforeEach(() => {
-    cy.fixture('credentials').then((creds) => {
+    cy.fixture('credential').then((creds) => {
       LoginPage.visit();
-      LoginPage.fillEmail(creds.validUser.email);
-      LoginPage.fillPassword(creds.validUser.password);
+      LoginPage.fillEmail(creds.valid.email);
+      LoginPage.fillPassword(creds.valid.password);
       LoginPage.clickSignIn();
-      cy.wait(2000); // Đợi login và load dashboard
+      cy.wait(2000); // Wait for login and dashboard to load
       DashboardPage.goToHomeTab();
     });
   });
 
-  it('Kiểm tra các section chính', () => {
+  it('Check main sections', () => {
     DashboardPage.checkMainSections();
   });
 
-  it('Kiểm tra các bảng có dữ liệu', () => {
+  it('Check tables have data', () => {
     DashboardPage.checkTablesHaveData();
   });
 
-  it('Kiểm tra các số liệu tổng', () => {
+  it('Check summary numbers', () => {
     DashboardPage.checkSummaryNumbers();
   });
 
-  it('Kiểm tra tên user, số dư, menu user', () => {
+  it('Check user name, balance, and user menu', () => {
     DashboardPage.checkUserInfo();
   });
 
-  it('Kiểm tra sidebar và trạng thái active', () => {
+  it('Check sidebar and active state', () => {
     DashboardPage.checkSidebarMenu();
   });
 
-  it('Kiểm tra các link/tab trên dashboard', () => {
+  it('Check dashboard links/tabs', () => {
     DashboardPage.checkDashboardLinks();
+  });
+
+  it('LLM/VLM/Embedding API Requests chart displays correct total requests and model table from API', () => {
+    getLLMStatistics().then((apiData) => {
+      cy.log('API models:', JSON.stringify(apiData.models.map(m => m.model)));
+      // Check total requests
+      cy.get('span.font-18.color-border-80').contains('Total Requests:').should('contain', apiData.total_requests);
+      // Wait for model table to render
+      cy.get('.el-table__body').should('exist');
+      cy.get('.el-table__body').its('length').then(len => cy.log('Table count:', len));
+      // Log model list on UI
+      cy.get('.el-table__body').first().find('tr td:first-child .cell').each(($el) => {
+        cy.log('UI model:', $el.text());
+      });
+      // Check each model in the table
+      apiData.models.forEach((model) => {
+        cy.get('.el-table__body').first().within(() => {
+          cy.contains('tr', model.model).within(() => {
+            cy.get('td').last().should('contain', model.total_requests);
+          });
+        });
+      });
+    });
   });
 }); 
