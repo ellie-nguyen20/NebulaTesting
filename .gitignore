@@ -5,4 +5,6 @@ cypress/screenshots/
 cypress/videos/
 temp_codegen/
 note/
-*.log 
+*.log
+# Bỏ qua file token chứa access token
+cypress/fixtures/token.json 

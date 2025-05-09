@@ -42,8 +42,7 @@ class DashboardPage {
 
   checkSidebarMenu() {
     const menus = [
-      'Home', 'Instances', 'Object Storage', 'Serverless Endpoints',
-      'Dedicated Endpoints', 'SSH Public Key', 'API Keys', 'Billing',
+      'Home', 'Instances', 'Object Storage', 'Serverless Models', 'SSH Public Key', 'API Keys', 'Billing',
       'Account', 'Contact', 'Referral'
     ];
     menus.forEach(menu => {

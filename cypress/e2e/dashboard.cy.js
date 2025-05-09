@@ -1,10 +1,22 @@
+import '../support/commands';
 import DashboardPage from './pages/DashboardPage';
 import LoginPage from './pages/LoginPage';
 import { getLLMStatistics } from '../support/api_base';
 
 describe('Dashboard UI', () => {
+  before(() => {
+    cy.fixture('credential').then((creds) => {
+      cy.log('Before hook creds:', JSON.stringify(creds));
+      cy.loginAndSaveToken(creds);
+    });
+  });
+
   beforeEach(() => {
     cy.fixture('credential').then((creds) => {
+      cy.log('Loaded creds:', JSON.stringify(creds));
+      cy.log('creds.valid:', JSON.stringify(creds && creds.valid));
+      cy.log('creds.valid.email:', creds && creds.valid && creds.valid.email);
+      cy.log('creds.valid.password:', creds && creds.valid && creds.valid.password);
       LoginPage.visit();
       LoginPage.fillEmail(creds.valid.email);
       LoginPage.fillPassword(creds.valid.password);
