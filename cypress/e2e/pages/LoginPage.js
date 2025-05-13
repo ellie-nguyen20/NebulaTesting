@@ -29,6 +29,7 @@ class LoginPage {
   }
   closeOverlay() {
     cy.get('button.el-dialog__headerbtn').click({force:true});
+    cy.wait(500);
   }
   logout() {
     cy.contains('Account').click({force:true});
@@ -42,4 +43,4 @@ class LoginPage {
   }
 }
 
-export default new LoginPage(); 
+export default new LoginPage();

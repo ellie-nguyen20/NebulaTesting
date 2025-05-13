@@ -1,15 +1,18 @@
-import credential from '../fixtures/credential.json';
+// import credential from '../fixtures/credential.json';
 
-const creds = credential.valid;
+// const creds = credential.valid;
+import LoginPage from '../e2e/pages/LoginPage';
+
 Cypress.Commands.add('loginAndSaveToken', (creds) => {
   cy.log('Custom command creds:', JSON.stringify(creds));
   cy.log('creds.valid:', JSON.stringify(creds && creds.valid));
   cy.log('creds.valid.email:', creds && creds.valid && creds.valid.email);
   cy.log('creds.valid.password:', creds && creds.valid && creds.valid.password);
-  cy.visit('https://www.nebulablock.com/home');
-  cy.get('input[type="text"]').type(creds.valid.email);
-  cy.get('input[type="password"]').type(creds.valid.password);
-  cy.get('button.el-button--primary').click();
+  LoginPage.visit();
+  cy.wait(2000);
+  LoginPage.fillEmail(creds.valid.email);
+  LoginPage.fillPassword(creds.valid.password);
+  LoginPage.clickSignIn();
   cy.wait(2000);
   cy.window().then((win) => {
     const token = win.localStorage.getItem('nebulablock_newlook_token');
@@ -20,5 +23,3 @@ Cypress.Commands.add('loginAndSaveToken', (creds) => {
   });
 });
 
-
-loginAndSaveToken(creds);

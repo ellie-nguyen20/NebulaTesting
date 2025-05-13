@@ -4,19 +4,14 @@ import LoginPage from './pages/LoginPage';
 const label = 'friday-' + Date.now();
 
 describe('Object Storage Page', () => {
-  before(() => {
-    cy.fixture('credentials').then((credentials) => {
+  beforeEach(() => {
+    cy.fixture('credential').then((creds) => {
       LoginPage.visit();
-      LoginPage.fillEmail(credentials.valid.email);
-      LoginPage.fillPassword(credentials.valid.password);
+      LoginPage.fillEmail(creds.valid.email);
+      LoginPage.fillPassword(creds.valid.password);
       LoginPage.clickSignIn();
       cy.wait(2000);
     });
-  });
-
-  beforeEach(() => {
-    ObjectStoragePage.visit();
-    cy.wait(1000);
   });
 
   it('should display all main UI components', () => {
@@ -40,7 +35,7 @@ describe('Object Storage Page', () => {
 
   it('should create a new object storage if Standard/Canada is in stock', () => {
     ObjectStoragePage.createObjectStorage(label);
-    // Xác nhận object storage mới xuất hiện trong bảng
+    // Verify the new object storage appears in the table
     ObjectStoragePage.checkObjectStorageTable(label);
     cy.contains('Object storage successfully created').should('exist');
   });
@@ -59,7 +54,7 @@ describe('Object Storage Page', () => {
   it('should regenerate S3 key in view modal', () => {
     ObjectStoragePage.viewObjectStorage(label);
     ObjectStoragePage.regenerateKey();
-    // Không thể xác thực key đổi do bị ẩn, nhưng xác nhận không lỗi và nút vẫn còn
+    // Cannot verify the changed key since it's hidden, but confirm no errors and button still exists
     cy.contains('regenerate key').should('be.visible');
   });
 }); 
