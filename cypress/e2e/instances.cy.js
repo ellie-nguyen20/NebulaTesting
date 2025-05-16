@@ -1,45 +1,63 @@
 import InstancesPage from './pages/InstancesPage';
 import LoginPage from './pages/LoginPage';
 import DeployInstancePage from './pages/DeployInstancePage';
-
-// E2E tests for the Instances page, including Deploy Instance flow
+import { ENDPOINTS } from '../support/constants';
 
 describe('Instances Page', () => {
   beforeEach(() => {
     cy.fixture('credential').then((creds) => {
       LoginPage.visit();
-      LoginPage.fillEmail(creds.valid.email);
-      LoginPage.fillPassword(creds.valid.password);
-      LoginPage.clickSignIn();
-      cy.wait(2000); // Wait for login and dashboard to load
+      LoginPage.login(creds.valid.email, creds.valid.password);
+      cy.url().should('include', ENDPOINTS.SERVERLESS);
     });
+    InstancesPage.visit();
+    cy.url().should('include', ENDPOINTS.INSTANCES);
+  });
+
+  it('should display Instances UI', () => {
+    InstancesPage.checkUI();
+  });
+
+  it('should create new instance', () => {
+    InstancesPage.createInstance();
+  });
+
+  it('should manage instance', () => {
+    InstancesPage.manageInstance();
   });
 
   it('should show empty state when there are no instances', () => {
-    InstancesPage.visit();
     InstancesPage.checkEmptyState();
   });
 
   it('should show instance table when there are deployed instances', () => {
-    InstancesPage.visit();
     InstancesPage.checkInstanceTable();
   });
 
   it('should show deploy instance page and all required fields after clicking Deploy', () => {
-    InstancesPage.visit();
     InstancesPage.clickDeploy();
     DeployInstancePage.checkDeployPageUI();
   });
 
   it('should show out-of-stock status for all hardware', () => {
-    InstancesPage.visit();
     InstancesPage.clickDeploy();
     DeployInstancePage.checkAllHardwareOutOfStock();
   });
 
   it('should show SSH key warning if no SSH key is present', () => {
-    InstancesPage.visit();
     InstancesPage.clickDeploy();
     DeployInstancePage.checkSSHKeyWarning();
+  });
+
+  it('should start instance', () => {
+    InstancesPage.startInstance();
+  });
+
+  it('should stop instance', () => {
+    InstancesPage.stopInstance();
+  });
+
+  it('should delete instance', () => {
+    InstancesPage.deleteInstance();
   });
 }); 

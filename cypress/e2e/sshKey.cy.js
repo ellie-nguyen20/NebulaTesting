@@ -1,20 +1,43 @@
 import SSHKeyPage from './pages/SSHKeyPage';
 import LoginPage from './pages/LoginPage';
+import { ENDPOINTS } from '../support/constants';
 
 const TEST_KEY = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtestkey1234567890';
 const HIDE_KEY = 'ssh-rsa A...234567890'
 
-describe('SSH Public Key Page', () => {
+describe('SSH Key Page', () => {
   beforeEach(() => {
     cy.fixture('credential').then((creds) => {
       LoginPage.visit();
-      LoginPage.fillEmail(creds.valid.email);
-      LoginPage.fillPassword(creds.valid.password);
-      LoginPage.clickSignIn();
-      cy.wait(2000);
+      LoginPage.login(creds.valid.email, creds.valid.password);
+      cy.url().should('include', ENDPOINTS.SERVERLESS);
     });
     SSHKeyPage.visit();
-    cy.wait(2000);
+    cy.url().should('include', ENDPOINTS.SSH_KEY);
+  });
+
+  it('should display SSH Key UI', () => {
+    SSHKeyPage.checkUI();
+  });
+
+  it('should add new SSH key', () => {
+    SSHKeyPage.addSSHKey();
+  });
+
+  it('should edit SSH key', () => {
+    SSHKeyPage.editSSHKey();
+  });
+
+  it('should delete SSH key', () => {
+    SSHKeyPage.deleteSSHKey();
+  });
+
+  it('should import SSH key', () => {
+    SSHKeyPage.importSSHKey();
+  });
+
+  it('should export SSH key', () => {
+    SSHKeyPage.exportSSHKey();
   });
 
   it('should display table UI', () => {

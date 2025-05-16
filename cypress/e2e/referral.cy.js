@@ -1,21 +1,32 @@
 import ReferralPage from './pages/ReferralPage';
 import LoginPage from './pages/LoginPage';
+import { ENDPOINTS } from '../support/constants';
 
 describe('Referral Page', () => {
   beforeEach(() => {
     cy.fixture('credential').then((creds) => {
       LoginPage.visit();
-      LoginPage.fillEmail(creds.valid.email);
-      LoginPage.fillPassword(creds.valid.password);
-      LoginPage.clickSignIn();
-      cy.wait(2000);
+      LoginPage.login(creds.valid.email, creds.valid.password);
+      cy.url().should('include', ENDPOINTS.SERVERLESS);
     });
     ReferralPage.visit();
-    cy.wait(1000);
+    cy.url().should('include', ENDPOINTS.REFERRAL);
   });
 
   it('should display Referral UI', () => {
     ReferralPage.checkUI();
+  });
+
+  it('should generate referral link', () => {
+    ReferralPage.generateLink();
+  });
+
+  it('should check referral history', () => {
+    ReferralPage.checkHistory();
+  });
+
+  it('should check referral rewards', () => {
+    ReferralPage.checkRewards();
   });
 
   it('should copy referral link and code', () => {
@@ -28,5 +39,4 @@ describe('Referral Page', () => {
     ReferralPage.applyReferralCode();
     ReferralPage.checkApplyError();
   });
-
 }); 

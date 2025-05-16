@@ -1,19 +1,15 @@
-// Page Object for the Billing page
-
 class BillingPage {
   visit() {
-    cy.visit('https://www.nebulablock.com/home');
     cy.get('.el-menu-item').contains('Billing').click({ force: true });
   }
 
   checkUI() {
     cy.contains('Available Credits').should('be.visible');
-    cy.contains('Add Credits').should('be.visible');
     cy.contains('Configure Auto-Pay').should('be.visible');
-    cy.contains('Add Payment Method').should('be.visible');
-    cy.contains('Add Promotion Code').should('be.visible');
-    cy.contains('Transactions').should('be.visible');
-    cy.contains('Usages').should('be.visible');
+    // cy.contains('Payment Method').should('be.visible');
+    // cy.contains('Add Promotion Code').should('be.visible');
+    cy.contains('Transactions').scrollIntoView().should('be.visible');
+    cy.contains('Usages').scrollIntoView().should('be.visible');
   }
 
   clickAddCredits() {

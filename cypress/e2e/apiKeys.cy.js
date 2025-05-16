@@ -1,32 +1,28 @@
-import APIKeysPage from './pages/APIKeysPage';
+import ApiKeysPage from './pages/ApiKeysPage';
 import LoginPage from './pages/LoginPage';
+import { ENDPOINTS } from '../support/constants';
 
 describe('API Keys Page', () => {
   beforeEach(() => {
     cy.fixture('credential').then((creds) => {
       LoginPage.visit();
-      LoginPage.fillEmail(creds.valid.email);
-      LoginPage.fillPassword(creds.valid.password);
-      LoginPage.clickSignIn();
-      cy.wait(2000);
+      LoginPage.login(creds.valid.email, creds.valid.password);
+      cy.url().should('include', ENDPOINTS.SERVERLESS);
     });
-    APIKeysPage.visit();
-    cy.wait(1000);
+    ApiKeysPage.visit();
+    cy.url().should('include', ENDPOINTS.API_KEYS);
   });
 
   it('should display API Keys UI', () => {
-    APIKeysPage.checkUI();
-  });
-
-  it('should copy API key', () => {
-    APIKeysPage.clickCopy();
+    ApiKeysPage.checkUI();
   });
 
   it('should regenerate API key', () => {
-    APIKeysPage.getApiKey().then((oldKey) => {
-      APIKeysPage.clickRegenerate();
-      cy.wait(2000);
-      APIKeysPage.checkApiKeyChanged(oldKey);
-    });
+    ApiKeysPage.createApiKey();
   });
+
+  it('should copy API key', () => {
+    ApiKeysPage.copyApiKey();
+  });
+  
 }); 

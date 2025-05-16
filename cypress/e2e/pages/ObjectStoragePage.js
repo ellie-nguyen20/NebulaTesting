@@ -1,8 +1,5 @@
-// Page Object for the Object Storage page
-
 class ObjectStoragePage {
   visit() {
-    cy.visit('https://www.nebulablock.com/home');
     cy.get('.el-menu-item').contains('Object Storage').click({force:true});
   }
 

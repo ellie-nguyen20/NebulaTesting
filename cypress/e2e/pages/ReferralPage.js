@@ -2,7 +2,6 @@
 
 class ReferralPage {
   visit() {
-    cy.visit('https://www.nebulablock.com/home');
     cy.get('.el-menu-item').contains('Referral').click({ force: true });
   }
 

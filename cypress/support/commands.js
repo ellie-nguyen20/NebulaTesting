@@ -1,7 +1,16 @@
-// import credential from '../fixtures/credential.json';
-
-// const creds = credential.valid;
 import LoginPage from '../e2e/pages/LoginPage';
+import credential from '../fixtures/credential.json';
+
+Cypress.Commands.add('loginViaUi', (userKey = 'valid') => {
+  const { email, password } = credential[userKey];
+
+  cy.session(userKey, () => {
+    LoginPage.visit();
+    LoginPage.login(email, password);
+    cy.url().should('include', '/serverless');
+  });
+});
+
 
 Cypress.Commands.add('loginAndSaveToken', (creds) => {
   cy.log('Custom command creds:', JSON.stringify(creds));
@@ -22,4 +31,3 @@ Cypress.Commands.add('loginAndSaveToken', (creds) => {
     }
   });
 });
-

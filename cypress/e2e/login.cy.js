@@ -1,33 +1,27 @@
 import LoginPage from './pages/LoginPage';
+import { ENDPOINTS } from '../support/constants';
 
-describe('NebulaBlock Login', () => {
-  let credentials;
+describe('Login Page', () => {
+  beforeEach(() => {
+    LoginPage.visit();
+    cy.url().should('include', ENDPOINTS.LOGIN);
+  });
 
-  before(() => {
-    cy.fixture('credentials').then((data) => {
-      credentials = data;
+  it('should display Login UI', () => {
+    LoginPage.checkUI();
+  });
+
+  it('should login with valid credentials', () => {
+    cy.fixture('credential').then((creds) => {
+      LoginPage.login(creds.valid.email, creds.valid.password);
+      LoginPage.isLoggedIn(creds.valid.username);
     });
   });
 
-  beforeEach(() => {
-    LoginPage.visit();
-  });
-
-  it('Valid Login', () => {
-    LoginPage.fillEmail(credentials.valid.email);
-    LoginPage.fillPassword(credentials.valid.password);
-    LoginPage.clickSignIn();
-    LoginPage.isLoggedIn();
-    cy.screenshot('login-success', { capture: 'fullPage' });
-    LoginPage.logout();
-    cy.screenshot('after-logout', { capture: 'fullPage' });
-  });
-
-  it('Invalid Login', () => {
-    LoginPage.fillEmail(credentials.invalid.email);
-    LoginPage.fillPassword(credentials.invalid.password);
-    LoginPage.clickSignIn();
-    LoginPage.isLoginError();
-    cy.screenshot('login-failed', { capture: 'fullPage' });
+  it('should show error with invalid credentials', () => {
+    cy.fixture('credential').then((creds) => {
+      LoginPage.login(creds.invalid.email, creds.invalid.password);
+      LoginPage.isLoginError();
+    });
   });
 }); 

@@ -2,7 +2,6 @@
 
 class ContactPage {
   visit() {
-    cy.visit('https://www.nebulablock.com/home');
     cy.get('.el-menu-item').contains('Contact').click({ force: true });
   }
 

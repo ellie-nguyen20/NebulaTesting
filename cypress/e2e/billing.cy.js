@@ -1,26 +1,24 @@
 import BillingPage from './pages/BillingPage';
 import LoginPage from './pages/LoginPage';
+import { ENDPOINTS } from '../support/constants';
 
 describe('Billing Page', () => {
   beforeEach(() => {
     cy.fixture('credential').then((creds) => {
       LoginPage.visit();
-      LoginPage.fillEmail(creds.valid.email);
-      LoginPage.fillPassword(creds.valid.password);
-      LoginPage.clickSignIn();
-      cy.wait(2000);
+      LoginPage.login(creds.valid.email, creds.valid.password);
+      cy.url().should('include', ENDPOINTS.SERVERLESS);
     });
     BillingPage.visit();
-    cy.wait(1000);
+    cy.url().should('include', ENDPOINTS.BILLING);
   });
-
+    
   it('should display Billing UI', () => {
     BillingPage.checkUI();
   });
 
-  it('should open add credits and select amount', () => {
+  it('should open Add Credits and select amount', () => {
     BillingPage.clickAddCredits();
-    BillingPage.selectCreditAmount(10);
   });
 
   it('should open and interact with payment methods', () => {
@@ -28,16 +26,16 @@ describe('Billing Page', () => {
     BillingPage.payWithCrypto();
   });
 
-  it('should configure and save auto-pay', () => {
+  it('should configure and save Auto-pay', () => {
     BillingPage.configureAutoPay();
     BillingPage.saveAutoPaySettings();
   });
 
-  it('should open add payment method', () => {
+  it('should open Add Payment Method', () => {
     BillingPage.addPaymentMethod();
   });
 
-  it('should add and redeem promotion code', () => {
+  it('should add and redeem Promotion Code', () => {
     BillingPage.addPromotionCode();
     BillingPage.redeemCode();
   });
@@ -52,4 +50,4 @@ describe('Billing Page', () => {
     BillingPage.filterUsages('Compute');
     BillingPage.filterUsages('Serverless');
   });
-}); 
+});

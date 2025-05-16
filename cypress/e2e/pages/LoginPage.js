@@ -1,45 +1,66 @@
+// cypress/e2e/pages/LoginPage.js
+
 class LoginPage {
   visit() {
     cy.visit('https://www.nebulablock.com/home');
   }
+
+  closeOverlayIfVisible() {
+    cy.get('body').then(($body) => {
+      if ($body.find('button.el-dialog__headerbtn').length) {
+        cy.get('button.el-dialog__headerbtn').click({ force: true });
+        cy.wait(500); 
+      }
+    });
+  }
+
+  checkUI() {
+    cy.contains('SIGN IN').should('exist');
+    cy.get('input[placeholder="Your email address"]').should('exist');
+    cy.get('input[placeholder="Your password"]').should('exist');
+    cy.contains('Remember me').should('exist');
+    cy.contains('SIGN UP').should('exist');
+    cy.contains('Forgot password?').should('exist');
+  }
+
   fillEmail(email) {
-    cy.get('body').then($body => {
-      if ($body.find('button.el-dialog__headerbtn').length) {
-        this.closeOverlay();
-      }
-    });
-    cy.get('input[type="text"]').first().clear({force: true}).type(email, {force: true});
+    this.closeOverlayIfVisible();
+    cy.get('input[placeholder="Your email address"]')
+      .clear({ force: true })
+      .type(email, { force: true });
   }
+
   fillPassword(password) {
-    cy.get('body').then($body => {
-      if ($body.find('button.el-dialog__headerbtn').length) {
-        this.closeOverlay();
-      }
-    });
-    cy.get('input[type="password"]').first().clear({force: true}).type(password, {force: true});
+    this.closeOverlayIfVisible();
+    cy.get('input[type="password"]')
+      .first()
+      .clear({ force: true })
+      .type(password, { force: true });
   }
+
   clickSignIn() {
-    cy.get('body').then($body => {
-      if ($body.find('button.el-dialog__headerbtn').length) {
-        this.closeOverlay();
-        cy.wait(500);
-      }
-    });
+    this.closeOverlayIfVisible();
     cy.get('button.el-button--primary').first().click();
   }
-  closeOverlay() {
-    cy.get('button.el-dialog__headerbtn').click({force:true});
-    cy.wait(500);
+
+  login(email, password) {
+    this.visit();
+    this.fillEmail(email);
+    this.fillPassword(password);
+    this.clickSignIn();
   }
+
   logout() {
-    cy.contains('Account').click({force:true});
-    cy.contains('Logout').click({force:true});
+    cy.contains('Account').click({ force: true });
+    cy.contains('Logout').click({ force: true });
   }
-  isLoggedIn() {
-    cy.contains('vu nguyen').should('exist');
+
+  isLoggedIn(username) {
+    cy.contains(username).should('exist');
   }
+
   isLoginError() {
-    cy.contains('SIGN IN').should('exist');
+    cy.contains('The user is not registered yet, please sign up.').should('be.visible');
   }
 }
 

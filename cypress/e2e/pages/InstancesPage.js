@@ -1,5 +1,3 @@
-// Page Object for the Instances page
-
 const SELECTOR_ACTIVE_CHECKBOX = 'label.el-checkbox';
 const SELECTOR_DEPLOY_BUTTON = 'div.refresh.refresh-active.text-center.pointer';
 const SELECTOR_INSTANCE_TABLE = '.el-table__body';
@@ -8,7 +6,6 @@ const SELECTOR_REFRESH_BUTTON = 'div.refresh';
 class InstancesPage {
   // Navigate to the Instances page
   visit() {
-    cy.visit('https://www.nebulablock.com/home');
     cy.get('.el-menu-item').contains('Instances').click({force:true});
   }
 

@@ -8,13 +8,3 @@ export function getLLMStatistics(timeFrame = '1d') {
   });
 }
 
-// before(() => {
-//   cy.loginAndSaveToken();
-// });
-
-// cy.fixture('token').then(({ token }) => {
-//   cy.request({
-//     url: 'https://api.nebulablock.com/api/v1/serverless/llm-statistics?time_frame=1d',
-//     headers: { Authorization: `Bearer ${token}` }
-//   });
-// });

@@ -1,10 +1,6 @@
 class DashboardPage {
   visit() {
-    cy.visit('https://www.nebulablock.com/home');
-  }
-
-  goToHomeTab() {
-    cy.get('.menu-title').contains('Home').click({force:true});
+    cy.get('.el-menu-item').contains('Home').click({ force: true });
   }
 
   checkMainSections() {
