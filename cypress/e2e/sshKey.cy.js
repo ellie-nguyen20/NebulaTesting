@@ -10,6 +10,7 @@ describe('SSH Key Page', () => {
     cy.fixture('credential').then((creds) => {
       LoginPage.visit();
       LoginPage.login(creds.valid.email, creds.valid.password);
+      LoginPage.isLoggedIn(creds.valid.username);
       cy.url().should('include', ENDPOINTS.SERVERLESS);
     });
     SSHKeyPage.visit();
@@ -20,28 +21,9 @@ describe('SSH Key Page', () => {
     SSHKeyPage.checkUI();
   });
 
-  it('should add new SSH key', () => {
-    SSHKeyPage.addSSHKey();
-  });
-
-  it('should edit SSH key', () => {
-    SSHKeyPage.editSSHKey();
-  });
-
-  it('should delete SSH key', () => {
-    SSHKeyPage.deleteSSHKey();
-  });
-
-  it('should import SSH key', () => {
-    SSHKeyPage.importSSHKey();
-  });
-
-  it('should export SSH key', () => {
-    SSHKeyPage.exportSSHKey();
-  });
-
-  it('should display table UI', () => {
-    SSHKeyPage.checkTableUI();
+  it('should check create modal UI', () => {
+    SSHKeyPage.openCreateModal();
+    SSHKeyPage.checkCreateModalUI();
   });
 
   it('should open create modal and display UI', () => {

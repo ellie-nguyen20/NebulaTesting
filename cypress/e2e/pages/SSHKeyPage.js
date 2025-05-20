@@ -2,7 +2,6 @@
 
 class SSHKeyPage {
   visit() {
-    cy.visit('https://www.nebulablock.com/home');
     cy.get('.el-menu-item').contains('SSH Public Key').click({ force: true });
   }
 
@@ -46,7 +45,6 @@ class SSHKeyPage {
   }
 
   checkViewModal(key) {
-    // cy.contains('Keyname:').next().should('contain', name);
     cy.contains('SSH Public Key:').next().should('contain', key.substring(0, 10));
   }
 
@@ -76,7 +74,10 @@ class SSHKeyPage {
     cy.contains('div.button.btn.border-radius-10', 'Confirm').should('be.visible');
   }
 
-  checkTableUI() {
+  checkUI() {
+    cy.contains('SSH Public Key').should('be.visible');
+    cy.contains('Create').should('be.visible');
+    cy.contains('Refresh').should('be.visible');
     cy.contains('Name').should('be.visible');
     cy.contains('Key Data').should('be.visible');
     cy.contains('Create Time').should('be.visible');

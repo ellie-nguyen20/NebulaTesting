@@ -2,7 +2,6 @@
 
 class ServerlessModelsPage {
   visit() {
-    cy.visit('https://www.nebulablock.com/home');
     cy.get('.el-menu-item').contains('Serverless Models').click({ force: true });
   }
 

@@ -23,11 +23,10 @@ class ContactPage {
 
   submit() {
     cy.contains('Submit').click({ force: true });
-    cy.wait(2000);
   }
 
   checkSuccessNotification() {
-    cy.contains('Your request has been successfully sent.').should('be.visible');
+    cy.contains('Your request has been successfully sent.', { timeout: 10000 }).should('be.visible');
   }
 }
 

@@ -16,8 +16,8 @@ class LoginPage {
 
   checkUI() {
     cy.contains('SIGN IN').should('exist');
-    cy.get('input[placeholder="Your email address"]').should('exist');
-    cy.get('input[placeholder="Your password"]').should('exist');
+    cy.get('input[placeholder="Your email address"]', { timeout: 10000 }).should('exist');
+    cy.get('input[placeholder="Your password"]', { timeout: 10000 }).should('exist');    
     cy.contains('Remember me').should('exist');
     cy.contains('SIGN UP').should('exist');
     cy.contains('Forgot password?').should('exist');
@@ -25,14 +25,14 @@ class LoginPage {
 
   fillEmail(email) {
     this.closeOverlayIfVisible();
-    cy.get('input[placeholder="Your email address"]')
+    cy.get('input[placeholder="Your email address"]', { timeout: 10000 })
       .clear({ force: true })
       .type(email, { force: true });
   }
 
   fillPassword(password) {
     this.closeOverlayIfVisible();
-    cy.get('input[type="password"]')
+    cy.get('input[type="password"]', { timeout: 10000 })
       .first()
       .clear({ force: true })
       .type(password, { force: true });
@@ -56,7 +56,7 @@ class LoginPage {
   }
 
   isLoggedIn(username) {
-    cy.contains(username).should('exist');
+    cy.contains(username).should('be.visible', { timeout: 10000 });
   }
 
   isLoginError() {

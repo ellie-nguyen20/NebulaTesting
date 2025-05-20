@@ -7,6 +7,7 @@ describe('Referral Page', () => {
     cy.fixture('credential').then((creds) => {
       LoginPage.visit();
       LoginPage.login(creds.valid.email, creds.valid.password);
+      LoginPage.isLoggedIn(creds.valid.username);
       cy.url().should('include', ENDPOINTS.SERVERLESS);
     });
     ReferralPage.visit();
