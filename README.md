@@ -26,22 +26,43 @@ This project provides a comprehensive end-to-end (E2E) test suite for the Nebula
    npm install
    npm install --save-dev mochawesome mochawesome-merge mochawesome-report-generator
    ```
-   > Mochawesome and related packages are used for generating HTML test reports.
+   > Mochawesome and related packages are used to generate HTML test reports.
 
 2. **Run tests:**
-   ```bash
-   npx cypress run
-   ```
+   - **Production environment:**
+     ```bash
+     npm run test:prod
+     ```
+   - **Staging environment:**
+     ```bash
+     npm run test:staging
+     ```
 
-3. **View HTML report:**
-   - The report will be generated in the `cypress/reports` folder.
-   - Open the `.html` file in this folder to view the test results in a user-friendly format.
+3. **Open Cypress UI:**
+   - **Production environment:**
+     ```bash
+     npm run cy:open:prod
+     ```
+   - **Staging environment:**
+     ```bash
+     npm run cy:open:staging
+     ```
 
-4. **Merge multiple reports (if needed):**
-   ```bash
-   npx mochawesome-merge cypress/reports/*.json > cypress/reports/merged-report.json
-   npx marge cypress/reports/merged-report.json -f report -o cypress/reports
-   ```
+4. **View HTML report:**
+   - **Production:** The report will be generated in the `cypress/reports/production/` folder.
+   - **Staging:** The report will be generated in the `cypress/reports/staging/` folder.
+   - Open the `.html` file in these folders to view the test results in a user-friendly format.
+
+5. **Merge multiple reports (if needed):**
+   - **Production:**
+     ```bash
+     npm run report:merge:prod
+     ```
+   - **Staging:**
+     ```bash
+     npm run report:merge:staging
+     ```
+   - This command will merge all JSON report files into a single HTML summary report in the corresponding folder.
 
 ## Security
 - Do not commit the `cypress.env.json` file containing sensitive information to git.
@@ -56,7 +77,7 @@ module.exports = defineConfig({
     // ...
     reporter: 'mochawesome',
     reporterOptions: {
-      reportDir: 'cypress/reports',
+      reportDir,
       overwrite: false,
       html: true,
       json: true

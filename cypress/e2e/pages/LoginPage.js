@@ -2,7 +2,7 @@
 
 class LoginPage {
   visit() {
-    cy.visit('https://www.nebulablock.com/home');
+    cy.visit('/home');
   }
 
   closeOverlayIfVisible() {

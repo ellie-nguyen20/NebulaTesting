@@ -3,14 +3,20 @@
   "version": "1.0.0",
   "description": "E2E tests for NebulaBlock using Cypress and POM",
   "scripts": {
-    "test": "cypress run",
-    "cy:open": "cypress open"
+    "test:prod": "rimraf cypress/reports/production && cross-env ENV=production npx cypress run",
+    "test:staging": "rimraf cypress/reports/staging && cross-env ENV=staging npx cypress run",
+    "cy:open:prod": "cross-env ENV=production npx cypress open",
+    "cy:open:staging": "cross-env ENV=staging npx cypress open",
+    "report:merge:prod": "npx mochawesome-merge cypress/reports/production/*.json > cypress/reports/production/merged-report.json && npx marge cypress/reports/production/merged-report.json -f report -o cypress/reports/production",
+    "report:merge:staging": "npx mochawesome-merge cypress/reports/staging/*.json > cypress/reports/staging/merged-report.json && npx marge cypress/reports/staging/merged-report.json -f report -o cypress/reports/staging"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "cypress": "^14.3.3",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^4.4.1",
-    "mochawesome-report-generator": "^6.2.0"
+    "mochawesome-report-generator": "^6.2.0",
+    "rimraf": "^6.0.1"
   },
   "dependencies": {
     "@executeautomation/playwright-mcp-server": "^1.0.5",
