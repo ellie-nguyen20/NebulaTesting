@@ -51,7 +51,7 @@ describe('Account Page', () => {
     });
   });
 
-  it('should not change password with wrong password', () => {
+  it('should not change password with wrong current password', () => {
     AccountPage.changeWithWrongPassword('wrongpassword', 'newWrongpassword');
   });
 

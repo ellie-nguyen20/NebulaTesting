@@ -1,5 +1,3 @@
-// cypress/e2e/pages/LoginPage.js
-
 class LoginPage {
   visit() {
     cy.visit('/home');

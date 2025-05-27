@@ -13,5 +13,6 @@ export const ENDPOINTS = {
   ACCOUNT: '/profile',
   CONTACT: '/contact',
   REFERRAL: '/referral',
-  SSH_KEY: '/sshKey'
+  SSH_KEY: '/sshKey',
+  TEAM: '/team',
 }; 

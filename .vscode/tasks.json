@@ -1,0 +1,113 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "all test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "billing test",
+      "type": "shell",
+      "command": " npx cypress run --spec cypress/e2e/billing.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "contact test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/contact.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "login test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/login.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "sshKey test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/sshKey.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "account test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/account.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "apiKeys test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/apiKeys.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "referral test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/referral.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "dashboard test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/dashboard.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "instances test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/instances.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "serverless test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/serverless.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "objectStorage test",
+      "type": "shell",
+      "command": "npx cypress run --spec cypress/e2e/objectStorage.cy.js",
+      "presentation": {
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    }
+  ]
+}

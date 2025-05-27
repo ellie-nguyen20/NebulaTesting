@@ -8,7 +8,8 @@
     "cy:open:prod": "cross-env ENV=production npx cypress open",
     "cy:open:staging": "cross-env ENV=staging npx cypress open",
     "report:merge:prod": "npx mochawesome-merge cypress/reports/production/*.json > cypress/reports/production/merged-report.json && npx marge cypress/reports/production/merged-report.json -f report -o cypress/reports/production",
-    "report:merge:staging": "npx mochawesome-merge cypress/reports/staging/*.json > cypress/reports/staging/merged-report.json && npx marge cypress/reports/staging/merged-report.json -f report -o cypress/reports/staging"
+    "report:merge:staging": "npx mochawesome-merge cypress/reports/staging/*.json > cypress/reports/staging/merged-report.json && npx marge cypress/reports/staging/merged-report.json -f report -o cypress/reports/staging",
+    "cy:staging": "cypress run --config baseUrl=https://dev-portal.nebulablock.com"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
