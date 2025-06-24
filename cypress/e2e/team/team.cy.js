@@ -1,6 +1,6 @@
-import TeamPage from './pages/TeamPage';
-import LoginPage from './pages/LoginPage';
-import { ENDPOINTS } from '../support/constants';
+import TeamPage from '../pages/TeamPage';
+import LoginPage from '../pages/LoginPage';
+import { ENDPOINTS } from '../../support/constants';
 
 describe('Team Page', () => {
   beforeEach(() => {
@@ -41,4 +41,6 @@ describe('Team Page', () => {
     TeamPage.clickDelete();
     // Add assertion for delete confirmation if needed
   });
+
+  it('should create a new team successfully')
 }); 
