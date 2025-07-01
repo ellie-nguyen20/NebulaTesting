@@ -15,12 +15,33 @@ class TeamDetailPage {
 
   // Action methods
   clickInviteMember() {
-    cy.get('[data-cy=invite-member-button]').click();
+    cy.contains('Invite Member').click({ force: true });
   }
 
-  clickLeaveTeam() {
-    cy.get('[data-cy=leave-team-button]').click();
+  fillInviteEmail(email) {
+    cy.get('input[placeholder="Email Address"]').should('be.visible').clear({ force: true }).type(email, { force: true });
   }
+
+  confirmInvite() {
+    cy.contains('div', 'send invitation').scrollIntoView().should('be.visible', { timeout: 10000 }).click({ force: true });
+  }
+
+  clickCancelPendingButton() {
+    cy.contains('Cancel').click({ force: true });
+  }
+
+  clickConfirmCancel() {
+    cy.contains('Cancel Invitation').click({ force: true });
+  }
+
+  clickDeleteTeam() {
+    cy.contains('div', 'Delete Team').scrollIntoView().should('be.visible', { timeout: 10000 }).click({ force: true });
+  }
+
+  clickConfirmDelete() {
+    cy.get('.el-dialog__body').contains('Delete Team').click({ force: true });
+  }
+
 }
 
 export default new TeamDetailPage(); 

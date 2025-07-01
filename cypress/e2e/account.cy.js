@@ -9,8 +9,8 @@ describe('Account Page', () => {
     cy.readFile('cypress/fixtures/credential.json').then((data) => {
       creds = data;
       LoginPage.visit();
-      LoginPage.login(creds.valid.email, creds.valid.password);
-      LoginPage.isLoggedIn(creds.valid.username);
+      LoginPage.login(creds.account.email, creds.account.password);
+      LoginPage.isLoggedIn(creds.account.username);
       cy.url().should('include', ENDPOINTS.SERVERLESS);
 
       AccountPage.visit();
@@ -23,29 +23,29 @@ describe('Account Page', () => {
   });
 
   it('should update profile information', () => {
-    AccountPage.updateProfile(creds.valid.updateUsername);
+    AccountPage.updateProfile(creds.account.updateUsername);
 
     cy.readFile('cypress/fixtures/credential.json').then((data) => {
-      const oldUsername = data.valid.username;
-      const newUsername = data.valid.updateUsername;
+      const oldUsername = data.account.username;
+      const newUsername = data.account.updateUsername;
 
-      data.valid.username = newUsername;
-      data.valid.updateUsername = oldUsername;
+      data.account.username = newUsername;
+      data.account.updateUsername = oldUsername;
 
       cy.writeFile('cypress/fixtures/credential.json', data);
     });
   });
 
   it('should change password', () => {
-    AccountPage.changePassword(creds.valid.password, creds.valid.newPassword);
+    AccountPage.changePassword(creds.account.password, creds.account.newPassword);
 
     cy.readFile('cypress/fixtures/credential.json').then((data) => {
-      const oldPassword = data.valid.password;
-      const newPassword = data.valid.newPassword;
+      const oldPassword = data.account.password;
+      const newPassword = data.account.newPassword;
 
       // Swap values
-      data.valid.password = newPassword;
-      data.valid.newPassword = oldPassword;
+      data.account.password = newPassword;
+      data.account.newPassword = oldPassword;
 
       cy.writeFile('cypress/fixtures/credential.json', data);
     });
@@ -56,6 +56,6 @@ describe('Account Page', () => {
   });
 
   it('should not change password with duplicate password', () => {
-    AccountPage.changeWithDuplicatePassword(creds.valid.password, creds.valid.password);
+    AccountPage.changeWithDuplicatePassword(creds.account.password, creds.account.password);
   });
 });

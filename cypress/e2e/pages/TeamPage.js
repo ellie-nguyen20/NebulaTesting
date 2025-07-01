@@ -6,6 +6,17 @@ class TeamPage {
     cy.get('.el-menu-item').contains('Team').click({ force: true });
   }
 
+  manageButtonVisible() {
+    cy.contains('div', 'Manage').should('be.visible');
+  }
+  deleteButtonVisible() {
+    cy.contains('div', 'Delete').should('be.visible');
+  }
+  viewButtonVisible() {
+    cy.contains('div', 'View').should('be.visible');
+  }
+ 
+
   // Use this when you expect the user to have no teams
   checkEmptyStateUI() {
     cy.contains("Team Management").should('be.visible');
@@ -28,34 +39,41 @@ class TeamPage {
   }
 
   clickCreateTeam() {
-    cy.get('[data-cy=create-team-button]').click();
+    cy.contains('Create Team').click({ force: true });
+    cy.wait(2000);
+    cy.get('input[placeholder="Team Name"]', { timeout: 10000 }).should('be.visible');
   }
 
   clickRefresh() {
-    cy.get('[data-cy=refresh-button]').click();
+    cy.contains('Refresh').click();
   }
 
+  fillTeamName(name) {
+    cy.get('input[placeholder="Team Name"]').clear({ force: true }).type(name, { force: true });
+  }
+
+  fillTeamDescription(description) {
+    cy.get('textarea[placeholder="Team Description"]').clear({ force: true }).type(description, { force: true });
+  }
+
+  confirmCreate() {
+    cy.contains('div.button', 'Create Team').click({ force: true });
+  }
   // This action navigates to the team detail page
-  clickManage(teamName = 'my team') {
+  clickManage(teamName) {
     cy.contains('tr', teamName).within(() => {
-      cy.get('[data-cy=manage-button]').click();
+      cy.contains('div', 'Manage').click();
     });
     return TeamDetailPage;
   }
 
-  clickDelete(teamName = 'my team') {
+  clickDelete(teamName ) {
     cy.contains('tr', teamName).within(() => {
-      cy.get('[data-cy=delete-button]').click();
+      cy.contains('div', 'Delete').click();
     });
   }
-
-  checkTeamTableData(teamName = 'my team', role = 'Owner', members = '3') {
-    cy.contains('tr', teamName).within(() => {
-      cy.get('[data-cy=team-role]').should('contain', role);
-      cy.get('[data-cy=team-members]').should('contain', members);
-      cy.get('[data-cy=manage-button]').should('exist');
-      cy.get('[data-cy=delete-button]').should('exist');
-    });
+  confirmDelete() {
+    cy.contains('div.button', 'Delete Team').click({ force: true });
   }
 }
 

@@ -13,12 +13,12 @@ class LoginPage {
   }
 
   checkUI() {
-    cy.contains('SIGN IN').should('exist');
+    cy.contains('button', 'Sign in').should('exist');
     cy.get('input[placeholder="Your email address"]', { timeout: 10000 }).should('exist');
     cy.get('input[placeholder="Your password"]', { timeout: 10000 }).should('exist');    
-    cy.contains('Remember me').should('exist');
-    cy.contains('SIGN UP').should('exist');
-    cy.contains('Forgot password?').should('exist');
+    cy.contains('Remember me', { timeout: 10000 }).should('exist');
+    cy.contains('Sign up', { timeout: 10000 }).should('exist');
+    cy.contains('Forgot password ?', { timeout: 10000 }).should('exist');
   }
 
   fillEmail(email) {
