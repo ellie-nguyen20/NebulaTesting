@@ -8,12 +8,11 @@ const MAX_REPORTS = 7;
 
 // Extract timestamp from report file name
 function extractTimestamp(filename) {
-  const match = filename.match(/report_(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})\.html/);
+  const match = filename.match(/report_(\d{4}-\d{2}-\d{2})_(\d{2})-(\d{2})-(\d{2})\.html/);
   if (!match) return null;
-  // Convert 'YYYY-MM-DD_HH-MM-SS' to 'YYYY-MM-DDTHH:MM:SS' for Date parsing
-  const isoString = match[1].replace('_', 'T').replace(/-/g, ':').replace('T', 'T').replace(/:(\d{2})$/, '-$1');
-  // Actually, just replace first '_' with 'T', the rest '-' are fine for Date
-  return new Date(match[1].replace('_', 'T'));
+  // match[1]: YYYY-MM-DD, match[2]: HH, match[3]: MM, match[4]: SS
+  const isoString = `${match[1]}T${match[2]}:${match[3]}:${match[4]}`;
+  return new Date(isoString);
 }
 
 // Step 1: Copy the new report to the target directory with the same name
