@@ -38,4 +38,23 @@ jobs:
         env:
           ENV: staging
 
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          persist-credentials: true
+
+      - name: Copy reports to gh-pages root
+        run: |
+          cp cypress/reports/staging/report.html gh-pages/
+
+      - name: Commit and push reports
+        run: |
+          cd gh-pages
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add *.html
+          git commit -m "Add test reports"
+          git push origin gh-pages
     
