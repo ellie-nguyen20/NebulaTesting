@@ -65,7 +65,7 @@ jobs:
       - name: Update index.html and cleanup old reports
         run: |
           cd gh-pages
-          node update_reports.js
+          node update_reports.js . ../cypress/reports/staging/$REPORT_NAME
 
       - name: Commit and push reports
         run: |
