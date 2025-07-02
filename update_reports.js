@@ -6,23 +6,19 @@ const INDEX_FILE = path.join(process.argv[2] || '.', 'index.html');
 const SOURCE_REPORT = process.argv[3] || 'cypress/reports/staging/report.html';
 const MAX_REPORTS = 7;
 
-// Generate new report file name based on timestamp
-function getTimestampName() {
-  const now = new Date();
-  const ts = now.toISOString().replace(/T/, '_').replace(/:/g, '-').replace(/\..+/, '');
-  return `report_${ts}_team.html`;
-}
-
 // Extract timestamp from report file name
 function extractTimestamp(filename) {
-  const match = filename.match(/report_(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})_team\.html/);
+  const match = filename.match(/report_(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})\.html/);
   if (!match) return null;
-  return new Date(match[1].replace(/_/g, 'T').replace(/-/g, ':').replace('T', ' ').replace(/:/g, ':'));
+  // Convert 'YYYY-MM-DD_HH-MM-SS' to 'YYYY-MM-DDTHH:MM:SS' for Date parsing
+  const isoString = match[1].replace('_', 'T').replace(/-/g, ':').replace('T', 'T').replace(/:(\d{2})$/, '-$1');
+  // Actually, just replace first '_' with 'T', the rest '-' are fine for Date
+  return new Date(match[1].replace('_', 'T'));
 }
 
-// Step 1: Copy the new report to the target directory with a timestamped name
+// Step 1: Copy the new report to the target directory with the same name
 const reportDir = path.dirname(INDEX_FILE);
-const newReportName = getTimestampName();
+const newReportName = path.basename(SOURCE_REPORT);
 const newReportPath = path.join(reportDir, newReportName);
 
 fs.copyFileSync(SOURCE_REPORT, newReportPath);
@@ -30,7 +26,7 @@ console.log(`✅ Copied new report as ${newReportName}`);
 
 // Step 2: Scan all report_*.html files
 let allReports = fs.readdirSync(reportDir)
-  .filter(f => /^report_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_team\.html$/.test(f))
+  .filter(f => /^report_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.html$/.test(f))
   .map(name => ({
     name,
     timestamp: extractTimestamp(name),
