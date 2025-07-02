@@ -42,6 +42,9 @@ jobs:
           ENV: staging
         continue-on-error: true
 
+      - name: Debug report files
+        run: ls -l cypress/reports/staging
+
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
