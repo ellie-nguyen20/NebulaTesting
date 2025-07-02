@@ -37,7 +37,8 @@ jobs:
           REPORT_NAME="report_${TIMESTAMP}.html"
           echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
           npm run test:staging || true
-          npm run report:merge:staging -- --report-filename=$REPORT_NAME
+          npm run report:merge:staging
+          mv cypress/reports/staging/report.html cypress/reports/staging/$REPORT_NAME
         env:
           ENV: staging
         continue-on-error: true
