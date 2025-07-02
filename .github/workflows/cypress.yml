@@ -37,6 +37,7 @@ jobs:
           npm run report:merge:staging
         env:
           ENV: staging
+        continue-on-error: true
 
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
