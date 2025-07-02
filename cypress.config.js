@@ -1,5 +1,10 @@
 const { defineConfig } = require('cypress');
-const env = require('./cypress.env.json');
+const fs = require('fs');
+
+const env = fs.existsSync('./cypress.env.json')
+  ? require('./cypress.env.json')
+  : {};
+
 const reportDir =
   process.env.ENV === 'staging'
     ? 'cypress/reports/staging'
