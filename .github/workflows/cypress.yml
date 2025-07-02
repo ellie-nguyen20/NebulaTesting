@@ -33,8 +33,11 @@ jobs:
 
       - name: Run test and merge report in dev environment
         run: |
+          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
+          REPORT_NAME="report_${TIMESTAMP}.html"
+          echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
           npm run test:staging
-          npm run report:merge:staging
+          npm run report:merge:staging -- --report-filename=$REPORT_NAME
         env:
           ENV: staging
         continue-on-error: true
@@ -48,7 +51,17 @@ jobs:
 
       - name: Copy reports to gh-pages root
         run: |
-          cp cypress/reports/staging/report.html gh-pages/
+          if [ -f "cypress/reports/staging/$REPORT_NAME" ]; then
+            cp "cypress/reports/staging/$REPORT_NAME" gh-pages/
+            cp update_reports.js gh-pages/
+          else
+            echo "⚠️ No report.html file found. Skipping copy."
+          fi
+
+      - name: Update index.html and cleanup old reports
+        run: |
+          cd gh-pages
+          node update_reports.js
 
       - name: Commit and push reports
         run: |
