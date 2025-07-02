@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
         with:
           persist-credentials: true
 
@@ -28,7 +28,7 @@ jobs:
       - name: Set up url
         run: |
           echo '{
-            "baseUrlStaging": "'"${{secrets.STAGING_BASE_URL }}"'"
+            "baseUrlStaging": "'"${{ secrets.STAGING_BASE_URL }}"'"
           }' > cypress.env.json
 
       - name: Run test and merge report in dev environment
