@@ -22,33 +22,14 @@ describe('Account Page', () => {
     AccountPage.checkUI();
   });
 
-  it('should update profile information', () => {
+  it('should update profile information successfully', () => {
     AccountPage.updateProfile(creds.account.updateUsername);
-
-    cy.readFile('cypress/fixtures/credential.json').then((data) => {
-      const oldUsername = data.account.username;
-      const newUsername = data.account.updateUsername;
-
-      data.account.username = newUsername;
-      data.account.updateUsername = oldUsername;
-
-      cy.writeFile('cypress/fixtures/credential.json', data);
-    });
+    AccountPage.updateProfile(creds.account.username);
   });
 
-  it('should change password', () => {
+  it('should change password successfully', () => {
     AccountPage.changePassword(creds.account.password, creds.account.newPassword);
-
-    cy.readFile('cypress/fixtures/credential.json').then((data) => {
-      const oldPassword = data.account.password;
-      const newPassword = data.account.newPassword;
-
-      // Swap values
-      data.account.password = newPassword;
-      data.account.newPassword = oldPassword;
-
-      cy.writeFile('cypress/fixtures/credential.json', data);
-    });
+    AccountPage.changePassword(creds.account.newPassword, creds.account.password);
   });
 
   it('should not change password with wrong current password', () => {
