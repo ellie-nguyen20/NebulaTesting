@@ -22,8 +22,6 @@ class DashboardPage {
       }
     });
     scrollToCheckVisibility('Home');
-    // cy.contains('Last 7 days').should('be.visible');
-    // cy.contains('Last 24 hours').should('be.visible');
     scrollToCheckVisibility('Inference Usage');
     scrollToCheckVisibility('Instances Usage');
   }
@@ -34,10 +32,13 @@ class DashboardPage {
   }
 
   checkDefaultTimeFilter() {
-    cy.get('.el-segmented__item', { timeout: 10000 })
+    cy.contains('Inference Usage')
+      .parent()
+      .find('.el-segmented')
+      .find('.el-segmented__item')
       .should('have.length', 2)
       .as('label');
-
+  
     cy.get('@label')
       .eq(0)
       .should('have.class', 'is-selected')
@@ -53,20 +54,27 @@ class DashboardPage {
 
   checkToggleTimeFilter() {
     this.past24HoursButton.click()
-    cy.get('.el-segmented__item')
+    cy.contains('Inference Usage')
+    .parent()
+    .find('.el-segmented')
+    .find('.el-segmented__item')
+    .should('have.length', 2)
+    .as('label');
+
+    cy.get('@label')
       .eq(0)
       .should('not.have.class', 'is-selected')
 
-    cy.get('.el-segmented__item')
+    cy.get('@label')
       .eq(1)
       .should('have.class', 'is-selected');
 
     this.past7DaysButton.click()
-    cy.get('.el-segmented__item')
+    cy.get('@label')
       .eq(0)
       .should('have.class', 'is-selected')
 
-    cy.get('.el-segmented__item')
+    cy.get('@label')
       .eq(1)
       .should('not.have.class', 'is-selected');
   }
@@ -96,7 +104,7 @@ class DashboardPage {
   checkResourceSummary() {
     scrollToCheckVisibility('Resource');
     scrollToCheckVisibility('Monitor your GPU, vCPU, ');
-    scrollToCheckVisibility('Memory and storage usage. ');
+    scrollToCheckVisibility(' Memory and storage usage.');
     scrollToCheckVisibility('GPU Amount');
     scrollToCheckVisibility('VCPU');
     scrollToCheckVisibility('Memory');
@@ -123,7 +131,7 @@ class DashboardPage {
   checkSidebarMenu() {
     const menus = [
       'Home', 'Instances', 'Object Storage', 'Serverless Models', 'SSH Public Key', 'API Keys', 'Billing',
-      'Account', 'Contact', 'Referral'
+      'Account','Team', 'Contact', 'Referral'
     ];
     menus.forEach(menu => {
       cy.get('.el-menu-item').should('contain', menu);
@@ -139,7 +147,8 @@ class DashboardPage {
       { text: 'Create SSH Key', expectedUrl: '/sshkey' },
       { text: 'Pricing', expectedUrl: '/pricing' },
       { text: 'Referral', expectedUrl: '/referral' },
-      { text: 'Upgrade', expectedUrl: '/home' }
+      { text: '$', expectedUrl: '/billing'},
+      // { text: 'Deposit', expectedUrl: '/home' }, add test for open modal Available Credits later
     ];
 
     links.forEach(link => {
@@ -161,7 +170,25 @@ class DashboardPage {
     cy.get('@windowOpen').should('be.calledWith', 'https://docs.nebulablock.com/');
   }
 
+  checkSwitchLanguageButtons() {
+    // Check the existence of EN and FR buttons
+    cy.contains('EN').should('be.visible');
+    cy.contains('FR').should('be.visible');
 
+    // Check initial state (assume default is EN, menu Home should be in English)
+    cy.contains('Home').should('be.visible');
+    cy.contains('Account').should('be.visible');
+
+    // Click FR and check menu switches to French
+    cy.contains('FR').click();
+    cy.contains('Accueil').should('be.visible'); // Home -> Accueil
+    cy.contains('Compte').should('be.visible'); // Account -> Compte
+
+    // Click back to EN and check menu switches back to English
+    cy.contains('EN').click();
+    cy.contains('Home').should('be.visible');
+    cy.contains('Account').should('be.visible');
+  }
 }
 
 export default new DashboardPage();

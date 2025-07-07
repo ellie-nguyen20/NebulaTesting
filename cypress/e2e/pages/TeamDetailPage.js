@@ -42,6 +42,25 @@ class TeamDetailPage {
     cy.get('.el-dialog__body').contains('Delete Team').click({ force: true });
   }
 
+  clickTransferOwnership() {
+    cy.contains('div','Transfer Ownership').scrollIntoView().click({ force: true });
+
+  }
+
+  clickDropdownChoice(choiceText) {
+    cy.get('.el-select-dropdown__item', { timeout: 10000 })
+      .contains(choiceText)
+      .click({ force: true });
+  }
+  
+
+  clickConfirmTransferOwnership() {
+    cy.get('.el-dialog__body').contains('Transfer Ownership').click({ force: true });
+  }
+
+  clickRemoveMemberByEmail(email) {
+    cy.contains('tr', email).contains('Remove').click({ force: true });
+  }
 }
 
 export default new TeamDetailPage(); 

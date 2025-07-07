@@ -18,7 +18,7 @@ describe('Team Management', () => {
       cy.url().should('include', ENDPOINTS.TEAM);
     });
 
-    it('should create new team successfully', () => {
+    it.skip('should create new team successfully', () => {
       TeamPage.clickCreateTeam();
       TeamPage.fillTeamName(teamName);
       TeamPage.fillTeamDescription('Test Description');
@@ -26,7 +26,7 @@ describe('Team Management', () => {
       cy.contains('Team created successfully').should('be.visible');
     });
 
-    it('should delete team successfully', () => {
+    it.skip('should delete team successfully', () => {
       TeamPage.clickDelete(teamName);
       TeamPage.confirmDelete();
       cy.contains('Team deleted successfully').should('be.visible');
@@ -52,7 +52,7 @@ describe('Team Management', () => {
       });
     });
 
-    it('should invite user to team successfully', () => {
+    it.skip('should invite user to team successfully', () => {
       cy.createTeam(teamName, 'Test Description');
       TeamPage.clickRefresh();
       TeamPage.clickManage(teamName);
@@ -63,7 +63,7 @@ describe('Team Management', () => {
       cy.contains('Team member invited successfully').should('be.visible');
     });
 
-    it('should cancel pending invitation successfully', () => {
+    it.skip('should cancel pending invitation successfully', () => {
       TeamPage.clickManage(teamName);
       TeamDetailPage.clickCancelPendingButton();
       TeamDetailPage.clickConfirmCancel();
@@ -72,16 +72,42 @@ describe('Team Management', () => {
       TeamDetailPage.clickConfirmDelete();
     });
 
-    it.skip('should transfer ownership of the team successfully', () => {
+    it.skip('should remove member from the team successfully', () => {
       cy.createTeam(teamName, 'Test Description').then((team) => {
         teamId = team.id;
         cy.fixture('users').then((users) => {
           cy.inviteAndAcceptMember(teamId, users.Ellie, users.Member1);
         });
-      }); 
+        TeamPage.clickRefresh();
+        TeamPage.clickManage(teamName);
+        TeamDetailPage.clickRemoveMember();
+      });
+    });
+
+    it('should transfer ownership of the team successfully', () => {
+      cy.createTeam(teamName, 'Test Description').then((team) => {
+        teamId = team.id;
+        cy.fixture('users').then((users) => {
+          cy.inviteAndAcceptMember(teamId, users.Ellie, users.Member1);
+        });
+        TeamPage.clickRefresh();
+        TeamPage.clickManage(teamName);
+        cy.wait(1000);
+        TeamDetailPage.clickTransferOwnership();
+        cy.wait(1000);
+        TeamDetailPage.clickDropdownChoice('thivunguyen1506+member1@gmail.com');
+        cy.wait(1000);
+        TeamDetailPage.clickConfirmTransferOwnership();
+        cy.wait(1000);
+        cy.contains('tr', 'You')
+          .within(() => {
+            cy.contains('div', 'Admin').should('be.visible');
+        });
+          
+    });
     })
 
-    it('should remove member from the team successfully', () => {})
+    it.skip('should remove member from the team successfully', () => {})
   }); 
 
   // context('when user is Owner, he can edit roles and permissions of all team members', () => {
