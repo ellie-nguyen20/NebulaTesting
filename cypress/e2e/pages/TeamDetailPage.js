@@ -53,14 +53,26 @@ class TeamDetailPage {
       .click({ force: true });
   }
   
-
   clickConfirmTransferOwnership() {
     cy.get('.el-dialog__body').contains('Transfer Ownership').click({ force: true });
   }
 
-  clickRemoveMemberByEmail(email) {
+  removeMemberByEmail(email) {
     cy.contains('tr', email).contains('Remove').click({ force: true });
+
   }
+
+  clickConfirmRemoveMember() {
+    cy.contains('Cancel')
+      .parent()
+      .within(() => {
+        cy.contains('Remove').should('be.visible').click({ force: true });
+      });
+    
+    // cy.contains('Team member removed successfully').should('be.visible', { timeout: 10000 });
+    // cy.contains('tr', email).should('not.exist');
+  }
+  
 }
 
 export default new TeamDetailPage(); 

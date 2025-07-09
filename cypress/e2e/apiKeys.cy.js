@@ -14,16 +14,20 @@ describe('API Keys Page', () => {
     cy.url().should('include', ENDPOINTS.API_KEYS);
   });
 
-  it('should display API Keys UI', () => {
-    ApiKeysPage.checkUI();
+  context('when user have 1 API personal key (default value)', () => {
+    it('should display API Keys Default UI', () => {
+      ApiKeysPage.checkUI();
+    });
+  
+    it('should regenerate API key', () => {
+      ApiKeysPage.createApiKey('Test API Key');
+    });
+  
+    it('should copy API key', () => {
+      ApiKeysPage.copyApiKey('Test API Key');
+    });
   });
 
-  it('should regenerate API key', () => {
-    ApiKeysPage.createApiKey();
-  });
-
-  it('should copy API key', () => {
-    ApiKeysPage.copyApiKey();
-  });
+ 
   
 }); 

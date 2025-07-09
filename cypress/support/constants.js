@@ -15,4 +15,5 @@ export const ENDPOINTS = {
   REFERRAL: '/referral',
   SSH_KEY: '/sshKey',
   TEAM: '/team',
+  RESERVED_INSTANCES: '/reserved-instance',
 }; 

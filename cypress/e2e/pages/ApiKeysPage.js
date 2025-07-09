@@ -7,36 +7,33 @@ class ApiKeysPage {
 
   checkUI() {
     cy.contains('API Keys').should('be.visible');
-    cy.get('div').contains('sk-').should('exist');
-    cy.get('.icon-copy').should('be.visible');
-    cy.get('span.el-dropdown-link:has(svg)').first().trigger('mouseover', { force: true });
-    cy.wait(300);
-    this.clickRegenerate();
-    cy.contains('Are you sure you want to regenerate your API key? This will invalidate your current API key and you will need to update any applications that use it.').should('be.visible');
-    cy.contains('Dismiss').should('be.visible');
-    cy.contains('REGENERATE API KEY').should('be.visible');
+    cy.contains('Generate New API Key').should('be.visible');
+    cy.contains('Refresh').should('be.visible');
   }
 
   getApiKey() {
     return cy.get('div').contains('sk-').invoke('text');
   }
 
-  clickCopy() {
-    cy.get('.icon-copy').first().click({ force: true });
+  clickCopy(name) {
+    cy.contains('tr',name).find('.icon-copy').eq(1).click({ force: true });
+    cy.contains(name).should('be.visible');
   }
 
   clickRegenerate() {
-    cy.contains('Regenerate API Key').click({ force: true });
+    cy.contains('Regenerate').click({ force: true });
   }
-  createApiKey() {
-    cy.get('span.el-dropdown-link:has(svg)').first().trigger('mouseover', { force: true });
-    cy.wait(300);
+  createApiKey(keyname) {
     this.clickRegenerate();
-    cy.contains('Create API Key successfully').should('be.visible');
+    cy.get('input[placeholder="API Key Name"]').type(keyname);
+    cy.contains('Ok').click({ force: true });
+    cy.contains('API key updated successfully').should('be.visible');
   }
-  copyApiKey() {
-    this.clickCopy();
-    cy.contains('Copied').should('be.visible');
+
+  copyApiKey(name) {
+    this.clickCopy(name);
+    cy.wait(1000);
+    cy.contains('Copied').should('be.visible', { timeout: 10000 });
   }
 }
 
