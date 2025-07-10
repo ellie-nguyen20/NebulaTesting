@@ -6,6 +6,11 @@ cypress/videos/
 temp_codegen/
 note/
 *.log
-# Bỏ qua file token chứa access token
 cypress/fixtures/token.json
-cypress/reports/ 
+cypress/reports/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

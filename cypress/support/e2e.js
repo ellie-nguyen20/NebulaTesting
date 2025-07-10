@@ -1,6 +1,8 @@
 // cypress/support/e2e.js
 
 import './commands';
+import 'cypress-iframe';
+
 
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })

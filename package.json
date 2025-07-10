@@ -12,8 +12,11 @@
     "cy:staging": "cypress run --config baseUrl=https://dev-portal.nebulablock.com"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.2",
+    "@types/node": "^24.0.12",
     "cross-env": "^7.0.3",
     "cypress": "^14.3.3",
+    "cypress-iframe": "^1.0.1",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^4.4.1",
     "mochawesome-report-generator": "^6.2.0",
