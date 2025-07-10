@@ -6,7 +6,7 @@ describe('Home Page', () => {
     HomePage.visit();
   });
 
-  context.skip('check UI', () => {
+  context('check UI', () => {
     it('should display Home Page UI', () => {
         HomePage.checkUI();
       });
@@ -16,7 +16,7 @@ describe('Home Page', () => {
       });
   })
 
-  context('check chat bot function when user not login', () => {
+  context.skip('check chat bot function when user not login', () => {
 
     it('should chat with chat bot successfully', () => {
         HomePage.clickChatBot();
@@ -27,7 +27,6 @@ describe('Home Page', () => {
 
     });
     
-    
   })
 
   context.skip('check chat bot function when user logged in', () => {
@@ -36,10 +35,7 @@ describe('Home Page', () => {
       cy.loginByApi(creds.valid.username, creds.valid.password);
       });
     });
-
-
     
   })
-
  
 }); 

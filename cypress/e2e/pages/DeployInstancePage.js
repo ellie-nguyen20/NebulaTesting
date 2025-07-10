@@ -5,6 +5,7 @@ const SELECTOR_OUT_OF_STOCK = 'div:contains("Currently out of stock")';
 const SELECTOR_SSH_KEY_WARNING = 'span:contains("Please add an SSH public key.")';
 
 class DeployInstancePage {
+ 
   // Check all required UI fields on the Deploy Instance page
   checkDeployPageUI() {
     cy.contains('Location').should('be.visible');

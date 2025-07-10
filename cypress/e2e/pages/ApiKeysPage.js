@@ -20,6 +20,17 @@ class ApiKeysPage {
     cy.contains(name).should('be.visible');
   }
 
+  clickDelete(name) {
+    cy.contains('tr',name).contains('Delete').click({ force: true });
+    
+  }
+
+  deleteApikey(name) {
+    this.clickDelete(name);
+    cy.contains('.button', 'Delete').click({ force: true });
+    cy.contains('API key deleted successfully').should('be.visible');
+  }
+
   clickRegenerate() {
     cy.contains('Regenerate').click({ force: true });
   }
@@ -34,6 +45,19 @@ class ApiKeysPage {
     this.clickCopy(name);
     cy.wait(1000);
     cy.contains('Copied').should('be.visible', { timeout: 10000 });
+  }
+
+  clickCreateApiKey() {
+    cy.contains('Generate New API Key').click({ force: true });
+  }
+
+  createNewApiKey(keyname, teamname) {
+    cy.get('input[placeholder="API Key Name"]').type(keyname);
+    cy.get('.el-select-dropdown__item', { timeout: 10000 })
+        .contains(teamname)
+        .click({ force: true });
+    cy.contains('Ok').click({ force: true });
+    cy.contains('New API key generated successfully').should('be.visible');
   }
 }
 

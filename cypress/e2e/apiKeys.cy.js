@@ -1,6 +1,7 @@
 import ApiKeysPage from './pages/ApiKeysPage';
 import LoginPage from './pages/LoginPage';
 import { ENDPOINTS } from '../support/constants';
+import '../../cypress/support/commands';
 
 describe('API Keys Page', () => {
   beforeEach(() => {
@@ -28,6 +29,43 @@ describe('API Keys Page', () => {
     });
   });
 
- 
+  context('when user has own team, he can create, delete API key for team', () => {
+    let teamId;
+    const teamName = 'Test team apikey';
+    const teamDesc = 'Test Description';
   
+    beforeEach(() => {
+      cy.fixture('credential').then((creds) => {
+        cy.loginByApi(creds.valid.email, creds.valid.password);
+      });
+  
+      cy.createTeam(teamName, teamDesc).then((team) => {
+        teamId = team.id;
+      });
+  
+      ApiKeysPage.visit();
+      cy.url().should('include', ENDPOINTS.API_KEYS);
+    });
+  
+    afterEach(() => {
+      if (teamId) {
+        cy.deleteTeam(teamId);
+        cy.wait(1000);
+      }
+    });
+  
+    it('should create API key for team', () => {
+      ApiKeysPage.clickCreateApiKey();
+      ApiKeysPage.createNewApiKey('Test key', teamName);
+    });
+  
+    it('should delete API key for team', () => {
+      ApiKeysPage.clickCreateApiKey();
+      ApiKeysPage.createNewApiKey('Test key', teamName);
+      ApiKeysPage.deleteApikey('Test key');
+    });
+  });
+  
+
+ 
 }); 

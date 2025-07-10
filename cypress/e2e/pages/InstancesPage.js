@@ -10,12 +10,11 @@ class InstancesPage {
   }
 
   // Check UI when there are no instances
-  checkEmptyState() {
-    cy.contains('Instances').should('be.visible');
-    cy.contains('Start harnessing the power of GPUs now!').should('be.visible');
-    cy.contains('Deploy').should('be.visible');
-    cy.get(SELECTOR_ACTIVE_CHECKBOX).contains('Active').should('exist');
-    cy.get(SELECTOR_REFRESH_BUTTON).contains('Refresh').should('be.visible');
+
+  checkUI() {
+    cy.contains('Start Using GPU Instances').should('be.visible');
+    cy.contains('Launch your first GPU instance for ML, training, or rendering tasks.').should('be.visible');
+    cy.contains('Continue').should('be.visible');
   }
 
   // Check the instance table is present and has at least one row

@@ -66,6 +66,7 @@ describe('Team Management', () => {
       cy.contains('canceled').should('be.visible');
       TeamDetailPage.clickDeleteTeam();
       TeamDetailPage.clickConfirmDelete();
+      cy.wait(1000);
     });
 
     it('should remove member from the team successfully', () => {
@@ -74,13 +75,16 @@ describe('Team Management', () => {
         cy.fixture('users').then((users) => {
           cy.inviteAndAcceptMember(teamId, users.Ellie, users.Member1);
         });
+        cy.clearCookies();
+        cy.fixture('users').then((users) => {
+          cy.loginByApi(users.Ellie.email, users.Ellie.password);
+        });
+        TeamPage.visit();
         TeamPage.clickRefresh();
         TeamPage.clickManage(teamName);
         TeamDetailPage.removeMemberByEmail('thivunguyen1506+member1@gmail.com');
         TeamDetailPage.clickConfirmRemoveMember();
-        cy.fixture('users').then((users) => {
-          cy.loginByApi(users.Ellie.email, users.Ellie.password);
-        });
+        // cy.wait(1000);
         cy.deleteTeam(teamId);
       });
     });
