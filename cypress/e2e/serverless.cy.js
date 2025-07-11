@@ -1,4 +1,4 @@
-import ServerlessPage from './pages/ServerlessPage';
+import ServerlessPage from './pages/ServerlessModelsPage';
 import LoginPage from './pages/LoginPage';
 import { ENDPOINTS } from '../support/constants';
 

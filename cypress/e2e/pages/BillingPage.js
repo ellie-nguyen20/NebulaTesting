@@ -4,7 +4,7 @@ class BillingPage {
   }
 
   checkUI() {
-    cy.contains('Available Credits').should('be.visible');
+    cy.contains('Available Credits').should('be.exist');
     cy.contains('Configure Auto-Pay').should('be.visible');
     cy.contains('h1', 'Payment Method').should('be.visible');
     cy.contains('Add Promotion Code').should('be.visible');

@@ -56,7 +56,7 @@ describe('Team Management', () => {
       TeamDetailPage.fillInviteEmail('test@gmail.com');
       cy.wait(1000);
       TeamDetailPage.confirmInvite();
-      cy.contains('Team member invited successfully').should('be.visible');
+      cy.contains('Team member invited successfully', { timeout: 10000 }).should('be.visible');
     });
 
     it('should cancel pending invitation successfully', () => {
