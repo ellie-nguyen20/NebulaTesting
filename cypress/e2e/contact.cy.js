@@ -14,7 +14,7 @@ describe('Contact Page', () => {
     cy.url().should('include', ENDPOINTS.CONTACT);
   });
 
-  context.skip('Check UI', () => {
+  context('Check UI', () => {
     it('should display Contact UI', () => {
       ContactPage.checkUI();
     });
@@ -50,7 +50,7 @@ describe('Contact Page', () => {
       );
     });
 
-    it.skip('should submit form on User Problems tab', () => {
+    it('should submit form on User Problems tab', () => {
       ContactPage.submitUserProblemsForm(
         'Test subject for User Problems',
         'Test description for User Problems',
@@ -58,7 +58,7 @@ describe('Contact Page', () => {
       );
     });
 
-    it.skip('should submit form on Startup Applications tab', () => {
+    it('should submit form on Startup Applications tab', () => {
       ContactPage.submitStartupApplicationsForm(
         'Test Startup',
         'https://teststartup.com',
@@ -68,7 +68,7 @@ describe('Contact Page', () => {
       );
     });
 
-    it.skip('should submit form on Academia Application tab', () => {
+    it('should submit form on Academia Application tab', () => {
       ContactPage.submitAcademiaApplicationForm(
         'Test Project Title',
         'Test Institution',
