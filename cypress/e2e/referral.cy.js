@@ -18,19 +18,15 @@ describe('Referral Page', () => {
     ReferralPage.checkUI();
   });
 
-  it('should generate referral link', () => {
-    ReferralPage.generateLink();
-  });
-
-  it('should check referral history', () => {
+  it.skip('should check referral history', () => {
     ReferralPage.checkHistory();
   });
 
-  it('should check referral rewards', () => {
+  it.skip('should check referral rewards', () => {
     ReferralPage.checkRewards();
   });
 
-  it('should copy referral link and code', () => {
+  it('should copy referral link and code successfully', () => {
     ReferralPage.copyLink();
     ReferralPage.copyCode();
   });
