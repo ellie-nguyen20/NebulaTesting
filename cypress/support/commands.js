@@ -54,6 +54,30 @@ Cypress.Commands.add('createTeam', (name, description) => {
   });
 });
 
+Cypress.Commands.add('createApiTeamKey', (name, description, teamId) => {
+  return cy.window().then((win) => {
+    const token = win.localStorage.getItem('nebulablock_newlook_token');
+    return cy.request({
+      method: 'POST',
+      url: `https://dev-portal-api.nebulablock.com/api/v1/keys`,
+      body:{
+        name: name,
+        description: description,
+        team_id: teamId
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.status).to.eq('success');
+      return response.body.data;
+    });
+  });
+});
+
+
 Cypress.Commands.add('deleteTeam', (teamId) => {
   return cy.window().then((win) => {
     const token = win.localStorage.getItem('nebulablock_newlook_token');
@@ -91,8 +115,6 @@ Cypress.Commands.add('inviteMemberToTeam', (teamId, email) => {
   });
 });
 
-
-
 Cypress.Commands.add('acceptTeamInvitation', (inviteToken) => {
   cy.window().then((win) => {
     const token = win.localStorage.getItem('nebulablock_newlook_token');
@@ -112,8 +134,6 @@ Cypress.Commands.add('acceptTeamInvitation', (inviteToken) => {
   });
 });
 
-
-
 Cypress.Commands.add('inviteAndAcceptMember', (teamId, owner, member) => {
   // Step 1: Owner logs in and sends invitation
   cy.loginByApi(owner.email, owner.password).then(() => {
@@ -126,3 +146,4 @@ Cypress.Commands.add('inviteAndAcceptMember', (teamId, owner, member) => {
     });
   });
 });
+
