@@ -16,26 +16,26 @@ describe('Home Page', () => {
       });
   })
 
-  context.skip('check chat bot function when user not login', () => {
+  // context.skip('check chat bot function when user not login', () => {
 
-    it('should chat with chat bot successfully', () => {
-        HomePage.clickChatBot();
-        cy.frameLoaded('iframe[src*="chat.nebulablock.com"]');
-        cy.intercept('POST', 'https://chat.nebulablock.com/api/chat-messages').as('chatRequest');
-        HomePage.sendchat('Hey, I need help');
-        cy.wait('@chatRequest').its('response.statusCode').should('eq', 200);
+  //   it('should chat with chat bot successfully', () => {
+  //       HomePage.clickChatBot();
+  //       cy.frameLoaded('iframe[src*="chat.nebulablock.com"]');
+  //       cy.intercept('POST', 'https://chat.nebulablock.com/api/chat-messages').as('chatRequest');
+  //       HomePage.sendchat('Hey, I need help');
+  //       cy.wait('@chatRequest').its('response.statusCode').should('eq', 200);
 
-    });
+  //   });
     
-  })
+  // })
 
-  context.skip('check chat bot function when user logged in', () => {
-    beforeEach(() => {
-    cy.fixture('credential').then((creds) => {
-      cy.loginByApi(creds.valid.username, creds.valid.password);
-      });
-    });
+  // context.skip('check chat bot function when user logged in', () => {
+  //   beforeEach(() => {
+  //   cy.fixture('credential').then((creds) => {
+  //     cy.loginByApi(creds.valid.username, creds.valid.password);
+  //     });
+  //   });
     
-  })
+  // })
  
 }); 

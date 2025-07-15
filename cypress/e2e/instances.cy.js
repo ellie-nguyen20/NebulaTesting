@@ -26,7 +26,7 @@ describe('Instances Page', () => {
         InstancesPage.checkUI();
     });
     });
-  context('Check Deploy Instance Page UI', () => {
+  context('Check UI Deploy Instance Page', () => {
     it('should show instance table when there are deployed instances', () => {
       InstancesPage.checkInstanceTable();
     });
@@ -42,15 +42,101 @@ describe('Instances Page', () => {
     });
   });
 
-  context.skip('when user have 4 GPUs with various statuses', () => {
+  context('When user have 4 GPUs with various statuses', () => {
     const statuses = ['Deploying', 'Running', 'Deleted', 'Deleting'];
-    const instances = statuses.map((status, index) => ({
-        name: `GPU-${status}`,
-        id: `mock-id-${index}`,
+    
+    statuses.forEach((status, index) => {
+      it(`should display instance with status "${status}"`, () => {
+        const instance = {
+          name: `gpu-${status}`,
+          id: `mock-id-${index}`,
+          dc_id: 3,
+          region: 'Montreal',
+          product_type: 'Virtual Machine',
+          host_name: `gpu-${status}`,
+          cpu_cores: 96,
+          cpu_model: 'INTEL(R) XEON(R) PLATINUM 8558',
+          cpu_count: '2',
+          ram: 2048,
+          gpu: 'H100-80G-SXM',
+          gpu_type: 'H100',
+          gpu_count: 8,
+          disk_size: 14336,
+          ephemeral: 0,
+          public_ipv4: '127.0.0.1',
+          price_per_hour: 14.4,
+          os: '',
+          status: status,
+          team_id: null,
+          created_at: Date.now() / 1000,
+          type: 1,
+          started_at: Date.now() / 1000 + 600,
+          ended_at: Date.now() / 1000 + 3600,
+          team: null,
+          user: {
+            id: 123,
+            name: 'Ellie Nguyen',
+            email: 'thivunguyen1506@gmail.com'
+          }
+        };
+        mockInstanceList([instance]);
+        InstancesPage.visit();
+        cy.wait('@getInstances', { timeout: 10000 });
+        cy.url().should('include', ENDPOINTS.INSTANCES);
+        InstancesPage.checkInstanceListUI();
+        InstancesPage.checkStatus(status);
+      });
+    });
+
+    it('should display all UI fields for instance correctly', () => {
+        const instance = {
+          name: `gpu-Running`,
+          id: `mock-id`,
+          dc_id: 3,
+          region: 'Montreal',
+          product_type: 'Virtual Machine',
+          host_name: `gpu-Running`,
+          cpu_cores: 96,
+          cpu_model: 'INTEL(R) XEON(R) PLATINUM 8558',
+          cpu_count: '2',
+          ram: 2048,
+          gpu: 'H100-80G-SXM',
+          gpu_type: 'H100',
+          gpu_count: 8,
+          disk_size: 14336,
+          ephemeral: 0,
+          public_ipv4: '127.0.0.1',
+          price_per_hour: 14.4,
+          os: '',
+          status: 'Running',
+          team_id: null,
+          created_at: Date.now() / 1000,
+          type: 1,
+          started_at: Date.now() / 1000 + 600,
+          ended_at: Date.now() / 1000 + 3600,
+          team: null,
+          user: {
+            id: 123,
+            name: 'Ellie Nguyen',
+            email: 'thivunguyen1506@gmail.com'
+          }
+        };
+        mockInstanceList([instance]);
+        InstancesPage.visit();
+        cy.wait('@getInstances');
+        cy.url().should('include', ENDPOINTS.INSTANCES);
+        InstancesPage.checkTableColumns();
+        InstancesPage.checkInstanceRowFields(instance);
+        
+    });
+    it('should display correct instance detail after clicking View', () => {
+      const instance = {
+        name: `gpu-Running`,
+        id: `mock-id`,
         dc_id: 3,
         region: 'Montreal',
-        product_type: 'Baremetal',
-        host_name: `gpu-${status.toLowerCase()}`,
+        product_type: 'Virtual Machine',
+        host_name: `gpu-Running`,
         cpu_cores: 96,
         cpu_model: 'INTEL(R) XEON(R) PLATINUM 8558',
         cpu_count: '2',
@@ -63,40 +149,30 @@ describe('Instances Page', () => {
         public_ipv4: '127.0.0.1',
         price_per_hour: 14.4,
         os: '',
-        status: status,
+        status: 'Running',
         team_id: null,
         created_at: Date.now() / 1000,
         type: 1,
         started_at: Date.now() / 1000 + 600,
         ended_at: Date.now() / 1000 + 3600,
+        team: null,
         user: {
-            id: 123,
-            name: 'Ellie Nguyen',
-            email: 'thivunguyen1506@gmail.com'
+          id: 123,
+          name: 'Ellie Nguyen',
+          email: 'thivunguyen1506@gmail.com'
         }
-    }));
+      };
+      mockInstanceList([instance]);
+      InstancesPage.visit();
+      cy.wait('@getInstances');
+      cy.url().should('include', ENDPOINTS.INSTANCES);
 
-    beforeEach(() => {
-        mockInstanceList(instances);
-        InstancesPage.visit();
-        cy.wait('@getInstances');
-        cy.url().should('include', ENDPOINTS.INSTANCES);
-    });
-
-    it('should display all UI fields for instance correctly', () => {
-        const status = 'Booked';
-        InstancesPage.checkTableColumns();
-        InstancesPage.checkInstanceRowFields(instances[0]);
-        
-    });
-    it('should display correct instance detail after clicking View', () => {
-        const instanceId = instances[0].id;
-        const instanceName = instances[0].name;
+      //mock instance detail
         const detailData = {
-            id: instanceId,
+            id: `mock-id`,
             dc_id: 3,
             region: 'Montreal',
-            product_type: 'Baremetal',
+            product_type: 'Virtual Machine',
             host_name: 'testRI04',
             cpu_cores: 96,
             cpu_model: 'INTEL(R) XEON(R) PLATINUM 8558',
@@ -129,7 +205,7 @@ describe('Instances Page', () => {
         };
         cy.intercept(
             'GET',
-            `**/api/v1/computing/instance/${instanceId}`,
+            `**/api/v1/computing/instance/mock-id`,
             {
                 statusCode: 200,
                 body: {
@@ -140,55 +216,52 @@ describe('Instances Page', () => {
             }
         ).as('getInstanceDetail');
 
-        InstancesPage.getViewButtonByInstanceName(instanceName).click();
-        cy.wait('@getInstanceDetail');
+        InstancesPage.getViewButtonByInstanceName(instance.name).click();
+        cy.wait('@getInstanceDetail', { timeout: 10000 });
 
         InstancesPage.checkInstanceDefaultFields();
         InstancesPage.checkInstanceDetailFields(detailData);
     });
 
 
-        statuses.forEach((status) => {
-            it(`should display instance with status "${status}"`, () => {
-                InstancesPage.checkInstanceListUI();
-                InstancesPage.checkStatus(status);
-            });
-        });
+  });
 
-
-});
-
-  context.skip('when user is Engineer Tier 3 or higher, he can deploy instance, power on, power off, delete instance', () => {
-    it('should start instance', () => {
-      InstancesPage.startInstance();
+  context('When user is Engineer Tier 3 or higher, he can deploy instance, power on, power off, delete instance', () => {
+    it('should deploy RTX-A6000 instance successfully (UI real data)', () => {
+      InstancesPage.clickDeploy();
+      InstancesPage.selectGpuOption('$0.433/hr');
+      InstancesPage.fillInstanceName('testInstance');
+      InstancesPage.clickDeployConfirm();
+      InstancesPage.checkInstanceRowDeploying({
+        name: 'testInstance',
+        region: 'CANADA',
+        gpu: 'RTX-A6000',
+        price: '$0.433/hr'
+      });
     });
   
-    it('should stop instance', () => {
-      InstancesPage.stopInstance();
-    });
-  
-    it('should delete instance', () => {
-      InstancesPage.deleteInstance();
+    it('should terminate instance successfully', () => {
+      cy.wait(180000);
+      InstancesPage.clickRefresh();
+      InstancesPage.getViewButtonByInstanceName('testInstance').click();
+      InstancesPage.terminateInstance();
+      InstancesPage.checkTerminatedStatus();
     });
   })
 
-
-
-
-
   function mockInstanceList(data) {
     cy.intercept(
-        'GET',
-        '**/api/v1/computing/instances?limit=10&offset=1&type=0',
-        {
-            statusCode: 200,
-            body: {
-                data,
-                total_instance: data.length,
-                message: 'All instances retrieved successfully',
-                status: 'success',
-            },
-        }
+      'GET',
+      '**/api/v1/computing/instances?limit=10&offset=1&type=0',
+      {
+        statusCode: 200,
+        body: {
+          data,
+          total_instance: data.length,
+          message: 'All instances retrieved successfully',
+          status: 'success',
+        },
+      }
     ).as('getInstances');
-}
+  }
 }); 
