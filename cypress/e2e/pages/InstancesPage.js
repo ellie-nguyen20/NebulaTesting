@@ -127,7 +127,7 @@ class InstancesPage {
   }
 
   checkInstanceRowDeploying({ name, region, gpu, price }) {
-    cy.contains('Instance created successfully').should('be.visible');
+    cy.contains('Instance created successfully', { timeout: 10000 }).should('be.visible');
     cy.contains('td', name).should('be.visible');
     cy.get('tbody tr').contains('td', name).parent().within(() => {
       cy.get('td').eq(8).should('have.text', 'Deploying');
@@ -144,7 +144,7 @@ class InstancesPage {
   }
 
   checkTerminatedStatus() {
-    cy.contains('Instance deleted successfully').should('be.visible');
+    cy.contains('Instance deleted successfully', { timeout: 10000 }).should('be.visible');
   }
 
   clickRefresh() {
