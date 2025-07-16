@@ -30,7 +30,7 @@ describe('API Keys Page', () => {
     });
   });
 
-  context.skip('when user has own team, he can create, delete API key for team', () => {
+  context('when user has own team, he can create, delete API key for team', () => {
     let teamId;
     const teamName = 'Test team apikey';
     const teamDesc = 'Test Description';
