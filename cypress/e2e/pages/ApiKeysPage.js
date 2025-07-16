@@ -16,8 +16,17 @@ class ApiKeysPage {
   }
 
   clickCopy(name) {
-    cy.contains('tr',name).find('.icon-copy').eq(1).click({ force: true });
-    cy.contains(name).should('be.visible');
+    cy.contains('tr', name, { timeout: 10000 })
+      .should('be.visible')
+      .find('.icon-copy')
+      .eq(1)
+      .should('be.visible')
+      .click({ force: true });
+  }
+
+  copyApiKey(name) {
+    this.clickCopy(name);
+    cy.contains('Copied', { timeout: 10000 }).should('be.visible');
   }
 
   clickDelete(name) {
@@ -39,12 +48,6 @@ class ApiKeysPage {
     cy.get('input[placeholder="API Key Name"]').type(keyname);
     cy.contains('Ok').click({ force: true });
     cy.contains('API key updated successfully').should('be.visible');
-  }
-
-  copyApiKey(name) {
-    this.clickCopy(name);
-    cy.wait(1000);
-    cy.contains('Copied').should('be.visible', { timeout: 10000 });
   }
 
   clickCreateApiKey() {
