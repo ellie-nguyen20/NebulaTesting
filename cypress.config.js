@@ -1,5 +1,6 @@
 const { defineConfig } = require('cypress');
 const fs = require('fs');
+const path = require('path');
 
 const env = fs.existsSync('./cypress.env.json')
   ? require('./cypress.env.json')
@@ -27,5 +28,37 @@ module.exports = defineConfig({
       json: true
     },
     // testIsolation: false,
+    setupNodeEvents(on, config) {
+      on('task', {
+        deleteFile(filePath) {
+          if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+            return true;
+          }
+          return false;
+        },
+
+        deleteAllFiles(folderPath) {
+          if (fs.existsSync(folderPath)) {
+            fs.readdirSync(folderPath).forEach((file) => {
+              const curPath = path.join(folderPath, file);
+              if (fs.lstatSync(curPath).isFile()) {
+                fs.unlinkSync(curPath);
+              }
+            });
+            return true;
+          }
+          return false;
+        },
+        countMp4Files(folderPath) {
+          if (!fs.existsSync(folderPath)) return 0;
+          return fs.readdirSync(folderPath).filter(f => f.endsWith('.mp4')).length;
+        },
+        getMp4Files(folderPath) {
+          if (!fs.existsSync(folderPath)) return [];
+          return fs.readdirSync(folderPath).filter(f => f.endsWith('.mp4'));
+        }
+      });
+    },
   }
 }); 

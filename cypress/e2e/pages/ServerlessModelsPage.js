@@ -33,10 +33,10 @@ class ServerlessModelsPage {
     // Check main model groups
     cy.contains('multimodal Models').should('be.visible');
     cy.contains('Text Models').should('be.visible');
-    cy.contains('Image Models').should('be.visible');
+    scrollToCheckVisibility('Image Models');
     scrollToCheckVisibility('Embedding Models');
     scrollToCheckVisibility('Vision Models');
-    scrollToCheckVisibility('Video Models');
+    scrollToCheckVisibility('Video Models', 10000);
 
     // Check all models displayed on the page
     const allModels = [
@@ -64,7 +64,7 @@ class ServerlessModelsPage {
       // Vision Models
       'Qwen2.5-VL-7B-Instruct',
       // Video Models
-      'SeeDance',
+      'Seedance',
     ];
     this.checkAllModelsVisible(allModels);
   }
@@ -127,9 +127,9 @@ class ServerlessModelsPage {
       // VISION
       'Qwen2.5-VL-7B-Instruct',
       // VIDEO
-      'SeeDance',
-      'SeeDance',
-      'SeeDance',
+      'Seedance-1-0-pro',
+      'Seedance-1.0-lite-i2v',
+      'Seedance-1.0-lite-t2v',
     ];
     allModels.forEach(model => {
       scrollToCheckVisibility(model);
@@ -158,6 +158,56 @@ class ServerlessModelsPage {
     cy.contains('.el-tabs__item', 'Python').should('have.class', 'is-active');
 
 
+  }
+
+  clickSendButton() {
+    cy.get('.icon-send').then($icons => {
+      const index = $icons.length === 2 ? 1 : 0;
+      cy.wrap($icons.eq(index)).click({ force: true });
+    });
+  }
+
+  checkImageResult() {
+    cy.get('div.show-img img', { timeout: 60000 })
+    .should('be.visible')
+    .and(($img) => {
+      expect($img[0].naturalWidth).to.be.greaterThan(0);
+    });
+  }
+
+  checkBase64ImageResult() {
+    cy.get('div.show-img img')
+    .should('have.attr', 'src')
+    .and('match', /^data:image\/png;base64,/);
+  }
+
+  checkVideoResult() {
+    cy.get('div.video-action', { timeout: 120000 }).should('be.visible');
+  }
+
+  checkActionButton(index) {
+    cy.get('div.video-action', { timeout: 120000 }).should('be.visible')
+      .within(() => {
+        cy.get('div.el-tooltip__trigger').eq(index).click();
+      });
+  }
+
+  checkVideoDownload() {
+    this.checkActionButton(0);
+    cy.wait(20000);
+    cy.task('countMp4Files', 'cypress/downloads').then((count) => {
+      expect(count).to.eq(1);
+    });
+  }
+
+  checkVideoPlay() {
+    this.checkActionButton(1);
+    cy.get('video.w-100').should('be.visible', { timeout: 10000 }).click();
+    cy.wait(100000);
+    cy.get('video.w-100').then($video => {
+      expect($video[0].paused, { timeout: 10000 }).to.be.false;
+    });
+    cy.contains('Close').click();
   }
 }
 

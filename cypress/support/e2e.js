@@ -35,3 +35,9 @@ Cypress.Commands.add('loginAs', (role = 'owner') => {
     window.localStorage.setItem('auth_token', resp.body.token);
   });
 });
+
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('ResizeObserver loop completed with undelivered notifications')) {
+    return false;
+  }
+});
