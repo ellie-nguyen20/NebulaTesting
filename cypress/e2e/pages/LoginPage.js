@@ -45,6 +45,7 @@ class LoginPage {
     this.visit();
     this.fillEmail(email);
     this.fillPassword(password);
+    cy.wait(5000);
     this.clickSignIn();
   }
 

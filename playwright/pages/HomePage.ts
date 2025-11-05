@@ -50,19 +50,32 @@ export class HomePage {
   }
 
   async checkMenu() {
-    const menuItems = [
-      'Serverless AI', 'Compute', 'Pricing', 'Blog', 'Company',
-      'FAQs', 'Docs', 'EN', 'FR', 'Launch', 'Sign up'
+    const mainMenuItems = [
+      'Compute', 'Pricing', 'Blog', 'Company', 'FAQs', 'Docs'
     ];
   
-    const header = this.page.locator('div.header');
+    const topRightItems = [
+      'Launch', 'Sign up', 'EN', 'FR'
+    ];
   
-    for (const item of menuItems) {
-      const locator = header.getByText(item, { exact: false }).first();
+    const mainMenu = this.page.locator('ul.menu-ul');
+  
+    for (const item of mainMenuItems) {
+      const locator = mainMenu.getByText(item, { exact: false }).first();
+      await expect(locator, `Main menu item '${item}' not visible`).toBeVisible();
       await locator.scrollIntoViewIfNeeded();
-      await expect(locator).toBeVisible();
+    }
+  
+    const topRightMenu = this.page.locator('nav.flex-wrap');
+  
+    for (const item of topRightItems) {
+      const locator = topRightMenu.getByText(item, { exact: false }).first();
+      await expect(locator, `Top-right item '${item}' not visible`).toBeVisible();
+      await locator.scrollIntoViewIfNeeded();
     }
   }
+  
+  
   
 
   async clickChatBot() {

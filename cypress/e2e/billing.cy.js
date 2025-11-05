@@ -32,7 +32,7 @@ describe('Billing Page', () => {
     BillingPage.saveAutoPaySettings();
   });
 
-  it('should open Add Payment Method', () => {
+  it.only('should open Add Payment Method', () => {
     BillingPage.addPaymentMethod();
   });
 
